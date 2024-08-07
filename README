@@ -1,0 +1,61 @@
+Use below link for setting up graphql
+https://www.apollographql.com/docs/kotlin/tutorial/01-configure-project
+
+either use following step to set details
+1) gradle/libs.versions.toml
+
+[versions]
+# ...
+apollo = "4.0.0"
+
+[plugins]
+# ...
+apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }
+
+[libraries]
+# ...
+apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo"}
+
+
+2) app/build.gradle.kts  in app directory
+
+plugins {
+    alias(libs.plugins.android.application)
+    // ...
+    alias(libs.plugins.apollo)
+}
+
+apollo {
+  service("service") {
+    packageName.set("com.example.rocketreserver")
+  }
+}
+
+
+dependencies {
+    // ...
+  implementation(libs.apollo.runtime)
+}
+
+
+ After above steps run this line in terminal
+./gradlew :app:downloadApolloSchema --endpoint='https://countries.trevorblades.com/graphql' --schema=app/src/main/graphql/schema.graphqls
+
+if getting issue for jdk replace jdk to 17
+add jdk 17 path to gradle.property
+org.gradle.java.home=C\:\\Program Files\\Android\\Android Studio1\\jbr
+
+
+
+https://studio.apollographql.com/public/countries/variant/current/explorer
+copy the query for country in new file call coountries inside app/src/main/graphql/
+
+for dagger hilt need to use kotlin version 2.0.0 and dagger hilt version 2.51.1
+and if your kotlin version 2.0.0 then need to include
+
+ In app gradle.kts file
+ alias(libs.plugins.compose.compiler)
+
+ project level need to include
+ [plugin]
+ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
